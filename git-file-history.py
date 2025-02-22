@@ -50,7 +50,6 @@ def main():
             files_to_commits[file].add(commit)
 
     # Output results
-    print("\n=== Files Modified ===")
     unique_files = sorted(files_to_commits.keys())
     for file in unique_files:
         print(file)
