@@ -4,6 +4,8 @@
 
 This script is designed to track all of the commits that changed all of the files involved in a given feature. This includes commits that were part of changes unrelated to the feature. The feature can be identified by a list of commits, which can be created manually or generated using commands like `git log --grep` for feature keywords in commit messages.
 
+This can be useful for identifying commits that might have affected the feature as a side effect.
+
 ## Usage
 
 1. **List Files Modified by Commits:**
@@ -50,4 +52,8 @@ To identify commits outside of explicit efforts on a feature that might have aff
    python git-feature-history.py --commits < feature_commits.txt
    ```
 
-This can be useful for identifying commits that might have affected the feature as a side effect.
+4. Generate a list of commits related to the feature using `git log --grep` and pipe it into git-feature-history.py with a commit range.
+
+   ```sh
+   git log --grep="feature keyword" --pretty=format:"%H" feature_begin_ref..HEAD | python3 git-file-history.py --commits output_range_begin..HEAD
+   ```
