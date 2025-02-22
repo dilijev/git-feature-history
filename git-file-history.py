@@ -27,7 +27,18 @@ def get_files_for_commit(commit_hash: str) -> Set[str]:
     ).splitlines()
     return set(files)
 
+def get_commits_for_files(files: List[str], gitlogflags: List[str]) -> List[str]:
+    """Get the list of commits that touched the given files."""
+    command = ["git", "log", "--pretty=format:[ %h ] %ad | %<(20,trunc)%ae | %s", "--date=iso"] + gitlogflags + ["--"] + files
+    log_output = run_git_command(command)
+    return log_output.splitlines()
+
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Process git commit hashes and list files or commits.")
+    parser.add_argument("--commits", nargs=argparse.REMAINDER, help="List commits that touched the files with optional git log flags")
+    args = parser.parse_args()
+
     # Dictionary to store files and their associated commits
     files_to_commits: Dict[str, Set[str]] = defaultdict(set)
 
@@ -49,10 +60,17 @@ def main():
         for file in files:
             files_to_commits[file].add(commit)
 
-    # Output results
     unique_files = sorted(files_to_commits.keys())
-    for file in unique_files:
-        print(file)
+
+    if args.commits is not None:
+        # Output commits that touched the files
+        commits_for_files = get_commits_for_files(unique_files, args.commits)
+        for commit in commits_for_files:
+            print(commit)
+    else:
+        # Output results
+        for file in unique_files:
+            print(file)
 
 if __name__ == "__main__":
     main()
