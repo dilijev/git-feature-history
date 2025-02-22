@@ -51,14 +51,9 @@ def main():
 
     # Output results
     print("\n=== Files Modified ===")
-    for file in sorted(files_to_commits.keys()):
-        print(f"\n{file}")
-        print("Commits:", " ".join(sorted(files_to_commits[file])))
-
-        # Generate git log command for this file
-        commits_arg = " ".join(files_to_commits[file])
-        print("History command:")
-        print(f"git log --follow --patch {commits_arg} -- {file}")
+    unique_files = sorted(files_to_commits.keys())
+    for file in unique_files:
+        print(file)
 
 if __name__ == "__main__":
     main()
