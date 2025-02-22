@@ -67,6 +67,6 @@ affected the feature as a side effect, you can use the following steps:
 Generate a list of commits related to the feature using `git log --grep` and
 pipe it into git-feature-history.py with a commit range.
 
-   ```sh
-   git log --grep="feature keyword" --pretty=format:"%H" feature_begin_ref..HEAD | python3 git-file-history.py --commits output_range_begin..HEAD
-   ```
+```sh
+git log --grep="feature keyword" --pretty=format:"%H" feature_begin_ref..HEAD | python3 git-file-history.py --commits output_range_begin..HEAD
+```
